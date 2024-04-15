@@ -1,13 +1,13 @@
 <div class="container">
 
-  <alert *ngIf="uploadSuccess" [dismissOnTimeout]="5" (onClosed)="onClosed()" type="success">
+  <alert *ngIf="uploadSuccess" [dismissOnTimeout]="3000" (onClosed)="onClosed()" type="success">
     <strong>Well done!</strong> Видео успешно загружено, ожидайте обработки.
   </alert>
 
   <label for="file-upload" class="custom-file-upload">
     Загрузить видео
   </label>
-  <input type="file" id="file-upload" class="file-input"
+  <input type="file" id="file-upload" class="file-input" [multiple]="true"
          (change)="onFileSelected($event)"/>
 
   <div *ngFor="let video of currentsVideos$ | async">

@@ -21,15 +21,20 @@ export class AppComponent {
   onFileSelected(event: Event) {
     const element = event.currentTarget as HTMLInputElement;
 
-    const file: File | null | undefined = element.files?.item(0);
-
-    if (file) {
-      this.videoHttpService.uploadVideo(file).subscribe((d) => {
-        if (d) {
-          this.uploadSuccess = true;
+    if (element.files?.length) {
+      for (let i = 0; i < element.files.length; i++) {
+        const file: File | null | undefined = element.files.item(i);
+        if (file) {
+          this.videoHttpService.uploadVideo(file).subscribe((d) => {
+            console.log(d, true)
+            if (d) {
+              this.uploadSuccess = true;
+            }
+          });
         }
-      });
+      }
     }
+
   }
 
   onClosed() {
