@@ -9,9 +9,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { VideoHttpService } from "../services/video.http.service";
 import { HttpService } from "../services/http.service";
 import { AlertModule } from "ngx-bootstrap/alert";
+import { AuthComponent } from './components/auth/auth.component';
 
 @NgModule({
   declarations: [
+    AuthComponent,
     AppComponent
   ],
   imports: [
@@ -25,6 +27,6 @@ import { AlertModule } from "ngx-bootstrap/alert";
     HttpService,
     VideoHttpService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AuthComponent]
 })
 export class AppModule { }

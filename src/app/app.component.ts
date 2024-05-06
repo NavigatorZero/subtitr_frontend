@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { VideoHttpService } from "../services/video.http.service";
-import { Observable } from "rxjs";
+import { VideoEntity, VideoHttpService } from "../services/video.http.service";
+import { Observable, first } from "rxjs";
 import { environment } from "../environments/environment";
 
 @Component({
@@ -13,7 +13,7 @@ export class AppComponent {
   fileName: string = '';
   uploadSuccess = false;
 
-  currentsVideos$: Observable<Array<string>> = this.videoHttpService.getAvailableVideos();
+  currentsVideos$: Observable<Array<VideoEntity>> = this.videoHttpService.getAvailableVideos();
 
   constructor(private videoHttpService: VideoHttpService) {
   }
@@ -25,7 +25,7 @@ export class AppComponent {
       for (let i = 0; i < element.files.length; i++) {
         const file: File | null | undefined = element.files.item(i);
         if (file) {
-          this.videoHttpService.uploadVideo(file).subscribe((d) => {
+          this.videoHttpService.uploadVideo(file).pipe(first()).subscribe((d) => {
             console.log(d, true)
             if (d) {
               this.uploadSuccess = true;
@@ -41,7 +41,7 @@ export class AppComponent {
     this.uploadSuccess = false;
   }
 
-  getVideoLink(uuid: string) {
-    return `${environment.apiUrl}translate-video/${uuid}`
+  getVideoLink(videoEntity: VideoEntity) {
+    return `${environment.apiUrl}translate-video/${videoEntity.id}`
   }
 }

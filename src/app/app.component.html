@@ -11,7 +11,6 @@
          (change)="onFileSelected($event)"/>
 
   <div *ngFor="let video of currentsVideos$ | async">
-    <p><a [href]="getVideoLink(video)">{{ video }}</a></p>
-    {{ video }} /<br>
+    <p><a [href]="getVideoLink(video)">  {{ video.name }} /<br></a></p>
   </div>
 </div>

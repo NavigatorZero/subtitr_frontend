@@ -14,24 +14,16 @@ export class VideoHttpService {
     return this.http.performPostWithBody('translate-video/upload', formData)
   }
 
-  getAvailableVideos(): Observable<any> {
+  getAvailableVideos(): Observable<Array<VideoEntity>> {
     return this.http.performGet('translate-video/list/all')
   }
 }
 
-export type HttpOptions = {
-  headers?: HttpHeaders | {
-    [header: string]: string | string[];
-  };
-  context?: HttpContext;
-  observe?: 'body';
-  params?: HttpParams | {
-    [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
-  reportProgress?: boolean;
-  responseType?: 'json';
-  withCredentials?: boolean;
-  transferCache?: {
-    includeHeaders?: string[];
-  } | boolean;
+export type VideoEntity = {
+  id: number;
+  name: string;
+  path: string;
+  path_new: string;
+  uuid: string;
 }
+
