@@ -8,14 +8,12 @@ export class VideoHttpService {
   constructor(private http: HttpService) {
   }
 
-  uploadVideo(file: File): Observable<any> {
-    let formData: FormData = new FormData();
-    formData.append('file', file);
+  uploadVideo(formData: FormData): Observable<any> {
     return this.http.performPostWithBody('translate-video/upload', formData)
   }
 
-  getAvailableVideos(): Observable<Array<VideoEntity>> {
-    return this.http.performGet('translate-video/list/all')
+  getAvailableVideos(userId: number): Observable<Array<VideoEntity>> {
+    return this.http.performGet(`translate-video/list/${userId}/all`)
   }
 }
 

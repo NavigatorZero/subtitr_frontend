@@ -1,0 +1,59 @@
+div {
+  padding: 8px;
+}
+.container {
+  padding-top: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  width: 250px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.videos {
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-form-options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dropzone {
+  width: 600px;
+  padding: 8px;
+  height: 150px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toolbar {
+  background-color: #7d2ae8;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index: 1;
+}

@@ -11,11 +11,11 @@ export class HttpService {
   private httpCallOptions: HttpOptions = {};
 
   performGet(url: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}${url}` , this.httpCallOptions);
+    return this.http.get(`${environment.apiUrl}${url}`, this.httpCallOptions);
   }
 
   performPost(url: string, params?: HttpParams): Observable<any> {
-    return this.http.post(url, this.httpCallOptions, {...this.httpCallOptions, params: params});
+    return this.http.post(`${environment.apiUrl}${url}`,params);
   }
 
   performPostWithBody(url: string, params?: FormData): Observable<any> {

@@ -28,15 +28,16 @@
         <div class="form-content">
           <div class="login-form">
             <div class="title">Вход</div>
-          <form action="#">
+            
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                <input type="text" placeholder="Введите вашу почту" required>
+                <input type="text" placeholder="Введите вашу почту" required formControlName="login">
               </div>
               <div class="input-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Введите пароль" required>
+                <input type="password" placeholder="Введите пароль" required formControlName="password">
               </div>
               <div class="text"><a href="#">Забыли пароль?</a></div>
               <div class="button input-box">

@@ -1,0 +1,83 @@
+<mat-toolbar class="toolbar">
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Субтитр</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <mat-icon>favorite</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon>share</mat-icon>
+  </button>
+
+  <button mat-button [matMenuTriggerFor]="menu">{{( user$ | async)?.name}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">Выйти</button>
+    </mat-menu>
+</mat-toolbar>
+
+
+<div class="container">
+
+  <alert *ngIf="uploadSuccess" [dismissOnTimeout]="3000" (onClosed)="onClosed()" type="success">
+    <strong>Well done!</strong> Видео успешно загружено, ожидайте обработки.
+  </alert>
+
+
+    <div class="upload-form">
+      <div class="upload-form-options">
+        <mat-form-field appearance="fill" class="dropzone">
+          <mat-label>Переместите видео сюда</mat-label>
+          <ngx-mat-dropzone>
+            <input type="file" [multiple]="true" fileInput  name="fileCtrl" [formControl]="fileCtrl" />
+            @for (user of fileCtrl.value; track user.id) {
+              <mat-chip-row>
+                {{ user.name }}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            } @empty {
+              Empty list of users
+            }
+          </ngx-mat-dropzone>
+          <mat-icon matSuffix color="primary">cloud_upload</mat-icon>
+        </mat-form-field>
+
+        <div class="options">
+
+          <select [(ngModel)]="speed">
+            <option value="" disabled>Выберите качество обработки</option>
+            <option *ngFor="let preset of presets" [ngValue]="preset.name">
+              {{ preset.abbrev }}
+            </option>
+          </select>
+
+          <select [(ngModel)]="font">
+            <option value="" disabled>Выберите шрифт</option>
+            <option *ngFor="let font of fonts" [ngValue]="font.name">
+              {{ font.abbrev }}
+            </option>
+          </select>
+
+          <select [(ngModel)]="position">
+            <option value="" disabled>Выберите положение</option>
+            <option *ngFor="let position of positions" [ngValue]="position.name">
+              {{ position.abbrev }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <label for="file-upload" (click)="uploadVideo()" class="custom-file-upload">
+        Загрузить видео
+      </label>
+    </div>
+
+         <div class="videos">
+          <span *ngFor="let video of currentsVideos$ | async">
+            <p><a [href]="getVideoLink(video)">  {{ video.name }} <br></a></p>
+          </span>
+         </div>
+</div>
