@@ -24,7 +24,6 @@
     <strong>Well done!</strong> Видео успешно загружено, ожидайте обработки.
   </alert>
 
-
     <div class="upload-form">
       <div class="upload-form-options">
         <mat-form-field appearance="fill" class="dropzone">
@@ -74,10 +73,9 @@
         Загрузить видео
       </label>
     </div>
-
-         <div class="videos">
-          <span *ngFor="let video of currentsVideos$ | async">
-            <p><a [href]="getVideoLink(video)">  {{ video.name }} <br></a></p>
-          </span>
-         </div>
+          <div class="videos">
+                  <span *ngFor="let video of currentsVideos$ | async">
+                    <p><a [href]="getVideoLink(video)">  {{ video.name }} <br></a></p>
+                  </span>
+          </div>
 </div>

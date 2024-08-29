@@ -13,7 +13,7 @@ export class UserEffects {
 
   loadUser$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.login),
-    switchMap((action: {username: string, password: string}) =>
+    switchMap((action: {username: string, password: string}) => 
         this.authSerivce.login(action.username, action.password)
       .pipe(
         tap(user => {
@@ -33,6 +33,7 @@ export class UserEffects {
     private actions$: Actions,
     private store: Store,
     private authSerivce: AuthHttpService,
+    private videoService: VideoHttpService,
     private router: Router,
     private snackBarService: SnackbarService,
   ) {}
