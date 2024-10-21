@@ -18,7 +18,8 @@ export class VideoEffects {
             })
           )
       )
-    )
+    ),
+    {dispatch: false}
   );
 
   constructor(

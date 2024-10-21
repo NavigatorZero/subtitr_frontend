@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { VideoHttpService } from "../services/video.http.service";
 import { HttpService } from "../services/http.service";
 import { AlertModule } from "ngx-bootstrap/alert";
@@ -29,45 +29,42 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarService } from '../services/snackbar.service';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import {videoReducer} from "./store/video/video.reducer";
+import {VideoEffects} from "./store/video/video.effects";
 
-@NgModule({
-  declarations: [
-    AuthComponent,
-    AppLkComponent,
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatToolbarModule,
-    MatSnackBarModule,    
-    MatMenuModule,            
-    DropzoneCdkModule,
-    DropzoneMaterialModule,
-    TooltipModule.forRoot(),
-    AlertModule.forRoot(),
-    StoreModule.forRoot({user: userReducer}, {}),
-    EffectsModule.forRoot([UserEffects]),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.isProduction, // Restrict extension to log-only mode
-    }),
-  ],
+@NgModule({ declarations: [
+        AuthComponent,
+        AppLkComponent,
+        AppComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatButtonModule,
+        MatChipsModule,
+        MatToolbarModule,
+        MatSnackBarModule,
+        MatMenuModule,
+        DropzoneCdkModule,
+        DropzoneMaterialModule,
+        TooltipModule.forRoot(),
+        AlertModule.forRoot(),
+        StoreModule.forRoot({ userState: userReducer, videosState: videoReducer }),
+        EffectsModule.forRoot([UserEffects, VideoEffects]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: environment.isProduction, // Restrict extension to log-only mode
+        })],
   providers: [
-    HttpService,
-    VideoHttpService,
-    AuthHttpService,
-    SnackbarService,
-    AuthGuard,
-    provideAnimationsAsync(),
-  ],
-  bootstrap: [AppComponent]
-})
+        HttpService,
+        VideoHttpService,
+        AuthHttpService,
+        SnackbarService,
+        AuthGuard,
+        provideAnimationsAsync(),
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }

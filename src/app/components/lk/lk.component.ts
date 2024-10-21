@@ -1,11 +1,20 @@
 import { Component } from '@angular/core';
-import { Observable, first, switchMap, tap } from "rxjs";
+import {Observable, first, switchMap, tap, filter, delay} from "rxjs";
 import { VideoEntity, VideoHttpService } from '../../../services/video.http.service';
 import { environment } from '../../../environments/environment';
 import { FormControl } from '@angular/forms';
 import { AuthHttpService } from '../../../services/auth.http.service';
-import { UserState } from '../../store';
+import {
+  AppState,
+  selectExistingVideos,
+  selectUser,
+  selectUserState,
+  selectVideosState,
+  UserState,
+  VideosState
+} from '../../store';
 import { Store } from '@ngrx/store';
+import {getList} from "../../store/video/video.actions";
 
 @Component({
   selector: 'app-lk-component',
@@ -27,7 +36,7 @@ export class AppLkComponent {
     {name: 'medium', abbrev: 'Стандартно'},
     {name: 'large', abbrev: 'Долго'},
   ];
-  
+
   fonts = [
     {name: 'arial', abbrev: 'arial'},
     {name: 'bebas', abbrev: 'BebasNeue'},
@@ -40,22 +49,23 @@ export class AppLkComponent {
     {name: 'bottom', abbrev: 'Снизу'},
   ];
 
-  userId:number = 0;
+  userId: number = 0;
 
-  currentsVideos$ = this.userState.select((state) => state.user).pipe(
+  currentsVideos$ = this.videoState.select(selectExistingVideos).pipe(
+    first((t)=>t !== undefined && t.length > 0),
+    tap(videos => console.log(videos)),
+  );
+
+  user$ = this.userState.select(selectUser).pipe(
     first(v=>!!v),
-    switchMap(u => this.videoHttpService.getAvailableVideos(u.id))
-  )
-  
-  user$ = this.userState.select((state) => state.user).pipe(
-    first(),
-    tap(u => this.userId = u.id)
+    tap(u => this.userId = u?.id)
   )
 
   constructor(
-    private videoHttpService: VideoHttpService, 
+    private videoHttpService: VideoHttpService,
     private authService: AuthHttpService,
-    private userState: Store<UserState>
+    private userState: Store<any>,
+    private videoState: Store<AppState>,
   ) {
   }
 
